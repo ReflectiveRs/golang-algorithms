@@ -34,21 +34,21 @@ func TestBST(t *testing.T) {
 		}
 	}
 
-	// Проверка симметричного обхода
+	// Checking symmetric traversal
 	expectedTraversal := []int{3, 5, 7, 10, 12, 15, 18}
 	resultTraversal := bst.InOrderTraversal()
 	if !reflect.DeepEqual(resultTraversal, expectedTraversal) {
 		t.Errorf("InOrderTraversal() = %v; expected %v", resultTraversal, expectedTraversal)
 	}
 
-	// Проверка предварительного обхода
+	// Checking the pre-crawl
 	expectedPreOrder := []int{10, 5, 3, 7, 15, 12, 18}
 	resultPreOrder := bst.PreOrderTraversal()
 	if !reflect.DeepEqual(resultPreOrder, expectedPreOrder) {
 		t.Errorf("PreOrderTraversal() = %v; expected %v", resultPreOrder, expectedPreOrder)
 	}
 
-	// Проверка постордерном обхода
+	// Checking the postmodern crawl
 	expectedPostOrder := []int{10, 5, 3, 7, 15, 12, 18}
 	resultPostOrder := bst.PreOrderTraversal()
 	if !reflect.DeepEqual(resultPostOrder, expectedPostOrder) {

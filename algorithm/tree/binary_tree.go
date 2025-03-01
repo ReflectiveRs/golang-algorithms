@@ -1,18 +1,18 @@
 package tree
 
-// представляет узел бинарного дерева
+// Node of a binary tree
 type NodeBST struct {
 	Value int
 	Left  *NodeBST
 	Right *NodeBST
 }
 
-// представляет бинарное дерево поиска
+// Binary search tree
 type BST struct {
 	Root *NodeBST
 }
 
-// добавляет значение в бинарное дерево поиска
+// Adds a value to the binary search tree
 func (bst *BST) Insert(value int) {
 	if bst.Root == nil {
 		bst.Root = &NodeBST{Value: value}
@@ -21,7 +21,7 @@ func (bst *BST) Insert(value int) {
 	}
 }
 
-// рекурсивно вставляет значение в поддерево
+// Recursively inserts a value into a subtree
 func (n *NodeBST) insert(value int) {
 	if value < n.Value {
 		if n.Left == nil {
@@ -38,12 +38,12 @@ func (n *NodeBST) insert(value int) {
 	}
 }
 
-// ищет значение в бинарном дереве поиска
+// Searches for a value in a binary search tree
 func (bst *BST) Search(value int) bool {
 	return bst.Root.search(value)
 }
 
-// рекурсивно ищет значение в поддереве
+// Recursively searches for a value in a subtree
 func (n *NodeBST) search(value int) bool {
 	if n == nil {
 		return false
@@ -57,14 +57,14 @@ func (n *NodeBST) search(value int) bool {
 	}
 }
 
-// выполняет обход дерева в симметричном порядке
+// Performs a tree traversal in a symmetrical order
 func (bst *BST) InOrderTraversal() []int {
 	var result []int
 	bst.Root.inOrderTraversal(&result)
 	return result
 }
 
-// рекурсивно выполняет симметричный обход поддерева
+// Recursively performs symmetric traversal of a subtree
 func (n *NodeBST) inOrderTraversal(result *[]int) {
 	if n != nil {
 		n.Left.inOrderTraversal(result)
@@ -73,34 +73,34 @@ func (n *NodeBST) inOrderTraversal(result *[]int) {
 	}
 }
 
-// выполняет обход дерева в предварительном порядке
+// Performs a preliminary tree traversal
 func (bst *BST) PreOrderTraversal() []int {
 	var result []int
 	bst.Root.preOrderTraversal(&result)
 	return result
 }
 
-// рекурсивно выполняет предварительный обход поддерева
+// Recursively performs a preliminary traversal of the subtree
 func (n *NodeBST) preOrderTraversal(result *[]int) {
 	if n != nil {
-		*result = append(*result, n.Value) // Сначала добавляем корень
-		n.Left.preOrderTraversal(result)   // Затем левое поддерево
-		n.Right.preOrderTraversal(result)  // И правое поддерево
+		*result = append(*result, n.Value) // First we add the root
+		n.Left.preOrderTraversal(result)   // Then the left subtree
+		n.Right.preOrderTraversal(result)  // And the right subtree
 	}
 }
 
-// выполняет обход дерева в постордерном порядке
+// Performs a tree traversal in the postmodern order
 func (bst *BST) PostOrderTraversal() []int {
 	var result []int
 	bst.Root.postOrderTraversal(&result)
 	return result
 }
 
-// рекурсивно выполняет постордерный обход поддерева
+// Recursively performs a postmodern subtree traversal
 func (n *NodeBST) postOrderTraversal(result *[]int) {
 	if n != nil {
-		n.Left.postOrderTraversal(result)  // Сначала левое поддерево
-		n.Right.postOrderTraversal(result) // Затем правое поддерево
-		*result = append(*result, n.Value) // И добавляем корень в конце
+		n.Left.postOrderTraversal(result)  // First, the left subtree
+		n.Right.postOrderTraversal(result) // Then the right subtree
+		*result = append(*result, n.Value) // And add the root at the end.
 	}
 }

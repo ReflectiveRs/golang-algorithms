@@ -1,6 +1,6 @@
 package tree
 
-// Node представляет узел AVL-дерева
+// Node AVL tree
 type AVLNode struct {
 	Value  int
 	Left   *AVLNode
@@ -8,12 +8,12 @@ type AVLNode struct {
 	Height int
 }
 
-// AVLTree представляет AVL-дерево
+// AVLTree represents an AVL tree
 type AVLTree struct {
 	Root *AVLNode
 }
 
-// GetHeight возвращает высоту узла
+// Get Node height
 func (n *AVLNode) GetHeight() int {
 	if n == nil {
 		return 0
@@ -21,12 +21,12 @@ func (n *AVLNode) GetHeight() int {
 	return n.Height
 }
 
-// UpdateHeight обновляет высоту узла
+// Update Node heigh
 func (n *AVLNode) UpdateHeight() {
 	n.Height = max(n.Left.GetHeight(), n.Right.GetHeight()) + 1
 }
 
-// max возвращает максимальное из двух значений
+// Returns the maximum of two values
 func max(a, b int) int {
 	if a > b {
 		return a
@@ -34,7 +34,7 @@ func max(a, b int) int {
 	return b
 }
 
-// GetBalance возвращает баланс узла
+// Returns node balance
 func (n *AVLNode) GetBalance() int {
 	if n == nil {
 		return 0
@@ -42,7 +42,7 @@ func (n *AVLNode) GetBalance() int {
 	return n.Left.GetHeight() - n.Right.GetHeight()
 }
 
-// RightRotate выполняет правый поворот вокруг узла
+// Performs right turn around the node
 func RightRotate(y *AVLNode) *AVLNode {
 	x := y.Left
 	T2 := x.Right
@@ -56,7 +56,7 @@ func RightRotate(y *AVLNode) *AVLNode {
 	return x
 }
 
-// LeftRotate выполняет левый поворот вокруг узла
+// Performs a left turn around the node
 func LeftRotate(x *AVLNode) *AVLNode {
 	y := x.Right
 	T2 := y.Left
@@ -70,12 +70,12 @@ func LeftRotate(x *AVLNode) *AVLNode {
 	return y
 }
 
-// Insert вставляет новое значение в AVL-дерево
+// Inserts new value into the AVL tree
 func (tree *AVLTree) Insert(value int) {
 	tree.Root = tree.Root.insert(value)
 }
 
-// insert рекурсивно вставляет новое значение в поддерево
+// Recursively inserts new value into a subtree
 func (n *AVLNode) insert(value int) *AVLNode {
 	if n == nil {
 		return &AVLNode{Value: value, Height: 1}
@@ -91,23 +91,23 @@ func (n *AVLNode) insert(value int) *AVLNode {
 
 	balance := n.GetBalance()
 
-	// Левый левый случай
+	// Left left case
 	if balance > 1 && value < n.Left.Value {
 		return RightRotate(n)
 	}
 
-	// Правый правый случай
+	// Right right case
 	if balance < -1 && value > n.Right.Value {
 		return LeftRotate(n)
 	}
 
-	// Левый правый случай
+	// Left-right case
 	if balance > 1 && value > n.Left.Value {
 		n.Left = LeftRotate(n.Left)
 		return RightRotate(n)
 	}
 
-	// Правый левый случай
+	// Right-left case
 	if balance < -1 && value < n.Right.Value {
 		n.Right = RightRotate(n.Right)
 		return LeftRotate(n)
@@ -116,12 +116,12 @@ func (n *AVLNode) insert(value int) *AVLNode {
 	return n
 }
 
-// Search ищет значение в AVL-дереве
+// Searches for value in the AVL tree
 func (tree *AVLTree) Search(value int) bool {
 	return tree.Root.search(value)
 }
 
-// search рекурсивно ищет значение в поддереве
+// Recursively searches for value in subtree
 func (n *AVLNode) search(value int) bool {
 	if n == nil {
 		return false
@@ -135,14 +135,14 @@ func (n *AVLNode) search(value int) bool {
 	}
 }
 
-// InOrderTraversal выполняет обход дерева в симметричном порядке
+// Performs tree traversal in symmetrical order
 func (tree *AVLTree) InOrderTraversal() []int {
 	var result []int
 	tree.Root.inOrderTraversal(&result)
 	return result
 }
 
-// inOrderTraversal рекурсивно выполняет симметричный обход поддерева
+// Recursively performs symmetric traversal of subtree
 func (n *AVLNode) inOrderTraversal(result *[]int) {
 	if n != nil {
 		n.Left.inOrderTraversal(result)

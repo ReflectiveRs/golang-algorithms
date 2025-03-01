@@ -9,12 +9,12 @@ func TestAVLTree(t *testing.T) {
 	tree := &AVLTree{}
 	values := []int{30, 20, 40, 10, 25, 35, 50}
 
-	// Вставка значений
+	// Inserting values
 	for _, v := range values {
 		tree.Insert(v)
 	}
 
-	// Проверка поиска
+	// Checking the search
 	tests := []struct {
 		value  int
 		exists bool
@@ -36,7 +36,7 @@ func TestAVLTree(t *testing.T) {
 		}
 	}
 
-	// Проверка симметричного обхода
+	// Checking symmetric traversal
 	expectedInOrder := []int{10, 20, 25, 30, 35, 40, 50}
 	resultInOrder := tree.InOrderTraversal()
 	if !reflect.DeepEqual(resultInOrder, expectedInOrder) {
@@ -47,13 +47,13 @@ func TestAVLTree(t *testing.T) {
 func TestAVLTreeInsertionAndBalance(t *testing.T) {
 	tree := &AVLTree{}
 
-	// Вставка значений, которые должны вызвать балансировку
+	// Inserting values that should trigger balancing
 	values := []int{10, 20, 30, 40, 50, 25}
 	for _, v := range values {
 		tree.Insert(v)
 	}
 
-	// Проверка симметричного обхода
+	// Checking symmetric traversal
 	expectedInOrder := []int{10, 20, 25, 30, 40, 50}
 	resultInOrder := tree.InOrderTraversal()
 	if !reflect.DeepEqual(resultInOrder, expectedInOrder) {
@@ -68,7 +68,7 @@ func TestAVLTreeSearchNonExistent(t *testing.T) {
 		tree.Insert(v)
 	}
 
-	// Проверка поиска несуществующего значения
+	// Checking the search for non-existent value
 	if tree.Search(100) {
 		t.Error("Expected Search(100) to be false, got true")
 	}

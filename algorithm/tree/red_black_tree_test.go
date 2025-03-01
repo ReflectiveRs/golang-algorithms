@@ -2,29 +2,29 @@ package tree
 
 import "testing"
 
-// Проверка, что дерево удовлетворяет свойствам красно-черного дерева
+// Checking that the tree satisfies the properties of a red-black tree
 func (t *RedBlackTree) checkRBProperties(node *NodeRBT) bool {
 	if node == nil {
 		return true
 	}
 
-	// Корень всегда черный
+	// root is always black
 	if node == t.Root && node.Color != BLACK {
 		return false
 	}
 
-	// Если узел красный, то оба его потомка черные
+	// If node is red, then both of its descendants are black.
 	if node.Color == RED {
 		if (node.Left != nil && node.Left.Color != BLACK) || (node.Right != nil && node.Right.Color != BLACK) {
 			return false
 		}
 	}
 
-	// Рекурсивная проверка для левого и правого поддеревьев
+	// Recursive check for left and right subtrees
 	return t.checkRBProperties(node.Left) && t.checkRBProperties(node.Right)
 }
 
-// Подсчет черной высоты дерева
+// Calculating the black height of a tree
 func (t *RedBlackTree) blackHeight(node *NodeRBT) int {
 	if node == nil {
 		return 1
@@ -33,9 +33,9 @@ func (t *RedBlackTree) blackHeight(node *NodeRBT) int {
 	leftBlackHeight := t.blackHeight(node.Left)
 	rightBlackHeight := t.blackHeight(node.Right)
 
-	// Все пути от узла до листьев содержат одинаковое количество черных узлов
+	// All paths from the node to the leaves contain the same number of black nodes.
 	if leftBlackHeight != rightBlackHeight {
-		return -1 // Невалидное дерево
+		return -1 // Invalid tree
 	}
 
 	if node.Color == BLACK {
@@ -44,45 +44,45 @@ func (t *RedBlackTree) blackHeight(node *NodeRBT) int {
 	return leftBlackHeight
 }
 
-// Тест для вставки и проверки свойств красно-черного дерева
+// Check for insertion and checking properties of red-black tree
 func TestInsertAndRBProperties(t *testing.T) {
 	tree := &RedBlackTree{}
 
-	// Вставляем элементы
+	// Inserting elements
 	values := []int{10, 20, 30, 15, 25, 5}
 	for _, value := range values {
 		tree.Insert(value)
 	}
 
-	// Проверяем свойства красно-черного дерева
+	// Checking the properties of the red-black tree
 	if !tree.checkRBProperties(tree.Root) {
 		t.Error("Дерево не удовлетворяет свойствам красно-черного дерева после вставки")
 	}
 
-	// Проверяем черную высоту
+	// Checking the black height
 	if tree.blackHeight(tree.Root) == -1 {
 		t.Error("Черная высота дерева не совпадает для всех путей")
 	}
 }
 
-// Тест для поиска элементов
+// Checking the search for elements
 func TestSearch(t *testing.T) {
 	tree := &RedBlackTree{}
 
-	// Вставляем элементы
+	// Inserting elements
 	values := []int{10, 20, 30, 15, 25, 5}
 	for _, value := range values {
 		tree.Insert(value)
 	}
 
-	// Проверяем наличие вставленных элементов
+	// Checking for inserted elements
 	for _, value := range values {
 		if !tree.Search(value) {
 			t.Errorf("Ожидалось, что значение %d будет найдено в дереве", value)
 		}
 	}
 
-	// Проверяем отсутствие элементов, которых нет в дереве
+	// Check for the absence of elements that are not in the tree
 	nonExistentValues := []int{1, 100, 42}
 	for _, value := range nonExistentValues {
 		if tree.Search(value) {
@@ -91,37 +91,37 @@ func TestSearch(t *testing.T) {
 	}
 }
 
-// Тест для пустого дерева
+// Checking if the tree is empty
 func TestEmptyTree(t *testing.T) {
 	tree := &RedBlackTree{}
 
-	// Проверяем, что поиск в пустом дереве возвращает false
+	// Check that searching in an empty tree returns false
 	if tree.Search(10) {
 		t.Error("Ожидалось, что поиск в пустом дереве вернет false")
 	}
 
-	// Проверяем свойства красно-черного дерева для пустого дерева
+	// Checking the red-black tree properties for an empty tree
 	if !tree.checkRBProperties(tree.Root) {
 		t.Error("Пустое дерево должно удовлетворять свойствам красно-черного дерева")
 	}
 }
 
-// Тест для вставки дубликатов
+// Check for inserting duplicates
 func TestInsertDuplicates(t *testing.T) {
 	tree := &RedBlackTree{}
 
-	// Вставляем дубликаты
+	// Insert duplicates
 	values := []int{10, 10, 20, 20, 30, 30}
 	for _, value := range values {
 		tree.Insert(value)
 	}
 
-	// Проверяем, что дерево корректно обработало дубликаты
+	// Check that the tree handled duplicates correctly
 	if !tree.checkRBProperties(tree.Root) {
 		t.Error("Дерево не удовлетворяет свойствам красно-черного дерева после вставки дубликатов")
 	}
 
-	// Проверяем черную высоту
+	// Checking the black height
 	if tree.blackHeight(tree.Root) == -1 {
 		t.Error("Черная высота дерева не совпадает для всех путей после вставки дубликатов")
 	}

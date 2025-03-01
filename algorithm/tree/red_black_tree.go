@@ -5,21 +5,19 @@ const (
 	BLACK = false
 )
 
-// Узел красно-черного дерева
+// Node red-black tree
 type NodeRBT struct {
 	Value  int
-	Color  bool // true - красный, false - черный
+	Color  bool // true - red, false - black
 	Left   *NodeRBT
 	Right  *NodeRBT
 	Parent *NodeRBT
 }
 
-// Красно-черное дерево
 type RedBlackTree struct {
 	Root *NodeRBT
 }
 
-// Создание нового узла
 func NewNode(value int, color bool) *NodeRBT {
 	return &NodeRBT{
 		Value: value,
@@ -27,7 +25,6 @@ func NewNode(value int, color bool) *NodeRBT {
 	}
 }
 
-// Вставка значения в дерево
 func (t *RedBlackTree) Insert(value int) {
 	newNode := NewNode(value, RED)
 	if t.Root == nil {
@@ -38,7 +35,7 @@ func (t *RedBlackTree) Insert(value int) {
 	t.fixInsert(newNode)
 }
 
-// Вспомогательная функция для вставки узла
+// Auxiliary function for inserting a node
 func (t *RedBlackTree) insertNode(root, newNode *NodeRBT) {
 	if newNode.Value < root.Value {
 		if root.Left == nil {
@@ -57,24 +54,24 @@ func (t *RedBlackTree) insertNode(root, newNode *NodeRBT) {
 	}
 }
 
-// Балансировка дерева после вставки
+// Balancing tree after insertion
 func (t *RedBlackTree) fixInsert(node *NodeRBT) {
 	for node.Parent != nil && node.Parent.Color == RED {
 		if node.Parent == node.Parent.Parent.Left {
 			uncle := node.Parent.Parent.Right
 			if uncle != nil && uncle.Color == RED {
-				// красный
+				// Red
 				node.Parent.Color = BLACK
 				uncle.Color = BLACK
 				node.Parent.Parent.Color = RED
 				node = node.Parent.Parent
 			} else {
 				if node == node.Parent.Right {
-					// черный, узел — правый потомок
+					// Black, node is the right descendant
 					node = node.Parent
 					t.rotateLeft(node)
 				}
-				// черный, узел — левый потомок
+				// Black, node is the left descendant
 				node.Parent.Color = BLACK
 				node.Parent.Parent.Color = RED
 				t.rotateRight(node.Parent.Parent)
@@ -82,18 +79,17 @@ func (t *RedBlackTree) fixInsert(node *NodeRBT) {
 		} else {
 			uncle := node.Parent.Parent.Left
 			if uncle != nil && uncle.Color == RED {
-				// красный
 				node.Parent.Color = BLACK
 				uncle.Color = BLACK
 				node.Parent.Parent.Color = RED
 				node = node.Parent.Parent
 			} else {
 				if node == node.Parent.Left {
-					// черный, узел — левый потомок
+					// Black, node is the left descendant
 					node = node.Parent
 					t.rotateRight(node)
 				}
-				// черный, узел — правый потомок
+				// Black, node is the right descendant
 				node.Parent.Color = BLACK
 				node.Parent.Parent.Color = RED
 				t.rotateLeft(node.Parent.Parent)
@@ -103,7 +99,7 @@ func (t *RedBlackTree) fixInsert(node *NodeRBT) {
 	t.Root.Color = BLACK
 }
 
-// Левый поворот
+// Left turn
 func (t *RedBlackTree) rotateLeft(node *NodeRBT) {
 	rightChild := node.Right
 	node.Right = rightChild.Left
@@ -122,7 +118,7 @@ func (t *RedBlackTree) rotateLeft(node *NodeRBT) {
 	node.Parent = rightChild
 }
 
-// Правый поворот
+// Right turn
 func (t *RedBlackTree) rotateRight(node *NodeRBT) {
 	leftChild := node.Left
 	node.Left = leftChild.Right
@@ -141,12 +137,12 @@ func (t *RedBlackTree) rotateRight(node *NodeRBT) {
 	node.Parent = leftChild
 }
 
-// Поиск значения в дереве
+// Searching for a value in a tree
 func (t *RedBlackTree) Search(value int) bool {
 	return t.searchNode(t.Root, value)
 }
 
-// Вспомогательная функция для поиска
+// Searching for a node in a tree
 func (t *RedBlackTree) searchNode(node *NodeRBT, value int) bool {
 	if node == nil {
 		return false
@@ -159,18 +155,18 @@ func (t *RedBlackTree) searchNode(node *NodeRBT, value int) bool {
 	return true
 }
 
-// Обход дерева in-order и возврат результата в виде слайса
+// Traversing the in-order tree and returning the result as a slice
 func (t *RedBlackTree) InOrderTraversal() []int {
 	result := []int{}
 	t.inOrder(t.Root, &result)
 	return result
 }
 
-// Рекурсивная функция для обхода in-order
+// Recursive function for in-order traversal
 func (t *RedBlackTree) inOrder(node *NodeRBT, result *[]int) {
 	if node != nil {
-		t.inOrder(node.Left, result)          // Рекурсивно обходим левое поддерево
-		*result = append(*result, node.Value) // Добавляем значение текущего узла
-		t.inOrder(node.Right, result)         // Рекурсивно обходим правое поддерево
+		t.inOrder(node.Left, result)          // Recursively traversing the left subtree
+		*result = append(*result, node.Value) // Adding the value of the current node
+		t.inOrder(node.Right, result)         // Recursively traversing the right subtree
 	}
 }

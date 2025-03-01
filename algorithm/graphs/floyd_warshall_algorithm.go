@@ -10,22 +10,22 @@ func FloydWarshall(g GraphFloydWarshall) [][]int {
 	n := len(g.Graph)
 	dist := make([][]int, n)
 
-	// Инициализация матрицы расстояний
-	for i := 0; i < n; i++ {
+	// Initialization of the distance matrix
+	for i := range n {
 		dist[i] = make([]int, n)
-		for j := 0; j < n; j++ {
+		for j := range n {
 			if g.Graph[i][j] == 0 && i != j {
-				dist[i][j] = math.MaxInt32 // Если нет ребра, ставим бесконечность
+				dist[i][j] = math.MaxInt32 // If there is no edge, we set infinity
 			} else {
 				dist[i][j] = g.Graph[i][j]
 			}
 		}
 	}
 
-	// Алгоритм Флойда-Уоршелла
-	for k := 0; k < n; k++ {
-		for i := 0; i < n; i++ {
-			for j := 0; j < n; j++ {
+	// Floyd-Warshall algorithm
+	for k := range n {
+		for i := range n {
+			for j := range n {
 				if dist[i][k] != math.MaxInt32 && dist[k][j] != math.MaxInt32 {
 					dist[i][j] = min(dist[i][j], dist[i][k]+dist[k][j])
 				}

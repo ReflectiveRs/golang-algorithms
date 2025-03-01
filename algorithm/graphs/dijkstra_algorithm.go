@@ -32,7 +32,7 @@ type ItemDijkstra struct {
 	index    int // Index in queue
 }
 
-// Len, Less, Swap, Push и Pop реализуют интерфейс heap.Interface
+// Len, Less, Swap, Push и Pop implement the interface heap.Interface
 func (pq *PriorityQueue) Len() int {
 	return len(*pq)
 }

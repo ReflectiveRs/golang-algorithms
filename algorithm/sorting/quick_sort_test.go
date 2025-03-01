@@ -12,17 +12,17 @@ func TestQuickSort(t *testing.T) {
 		expected []int
 	}{
 		{
-			name:     "check with typical array",
+			name:     "check, typical array",
 			input:    []int{64, 34, 25, 12, 22, 11, 90},
 			expected: []int{11, 12, 22, 25, 34, 64, 90},
 		},
 		{
-			name:     "check, array is already sorted",
+			name:     "check, sorted array",
 			input:    []int{1, 2, 3, 4, 5},
 			expected: []int{1, 2, 3, 4, 5},
 		},
 		{
-			name:     "check, array is already sorted",
+			name:     "check, sorted array with negative values",
 			input:    []int{-1, -2, -3, -4, -5},
 			expected: []int{-5, -4, -3, -2, -1},
 		},

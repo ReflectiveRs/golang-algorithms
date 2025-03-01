@@ -1,13 +1,14 @@
 package main
 
 import (
-	algorithmsGraphs "algorithms/algorithm/graphs"
-	algorithmsSearch "algorithms/algorithm/search"
-	algorithmsSorting "algorithms/algorithm/sorting"
-	algorithmsTree "algorithms/algorithm/tree"
 	"fmt"
 	"log"
 	"math"
+
+	algorithmsGraphs "github.com/ReflectiveRs/golang-algorithms/algorithm/graphs"
+	algorithmsSearch "github.com/ReflectiveRs/golang-algorithms/algorithm/search"
+	algorithmsSorting "github.com/ReflectiveRs/golang-algorithms/algorithm/sorting"
+	algorithmsTree "github.com/ReflectiveRs/golang-algorithms/algorithm/tree"
 )
 
 func main() {
@@ -71,8 +72,8 @@ func main() {
 
 	var graphFloydWarshallDistances = algorithmsGraphs.FloydWarshall(graphFloydWarshall)
 	fmt.Println("FloydWarshall Матрица кратчайших расстояний:")
-	for i := 0; i < len(graphFloydWarshallDistances); i++ {
-		for j := 0; j < len(graphFloydWarshallDistances[i]); j++ {
+	for i := range graphFloydWarshallDistances {
+		for j := range graphFloydWarshallDistances[i] {
 			if graphFloydWarshallDistances[i][j] == math.MaxInt32 {
 				fmt.Print("Infinity ")
 			} else {
